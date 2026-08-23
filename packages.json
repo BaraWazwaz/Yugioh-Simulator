@@ -1,0 +1,14 @@
+{
+  "dependencies": [
+    {
+      "name": "json",
+      "url": "https://github.com/nlohmann/json",
+      "tag": "v3.11.3"
+    },
+    {
+      "name": "fmt",
+      "url": "https://github.com/fmtlib/fmt",
+      "tag": "11.0.2"
+    }
+  ]
+}

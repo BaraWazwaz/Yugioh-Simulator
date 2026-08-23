@@ -73,7 +73,7 @@ show_help() {
     log "❌ Error: Invalid or missing argument."
     log "💡 Usage: ./script.sh [command]"
     log "Available commands:"
-    log "  prepare  - Generate CMake build files"
+    log "  prepare  - Generate CMake build files and install packages"
     log "  compile  - Compile the program"
     log "  run      - Run the program (e.g. ./script.sh run --arg1 --arg2)"
 }
@@ -84,12 +84,15 @@ main() {
     case "$command" in
         "prepare")
             prepare
+            return 0
             ;;
         "compile")
             compile
+            return 0
             ;;
         "run")
             run "$@"
+            return 0
             ;;
         *)
             show_help
