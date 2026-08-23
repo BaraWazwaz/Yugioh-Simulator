@@ -7,7 +7,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/dist")
 
 include(FetchContent)
 
-set(DYNAMIC_LINK_TARGETS "")
+set(DYNAMIC_LINK_TARGETS "" CACHE INTERNAL "Global dynamic links")
 
 if(NOT EXISTS "${CMAKE_SOURCE_DIR}/packages.json")
     message(FATAL_ERROR "packages.json file not found in root directory!")
@@ -33,11 +33,6 @@ foreach(INDEX RANGE ${LOOP_MAX})
 
     list(APPEND DYNAMIC_LINK_TARGETS ${DEP_TARGET})
 endforeach()
+set(DYNAMIC_LINK_TARGETS "${DYNAMIC_LINK_TARGETS}" CACHE INTERNAL "Global dynamic links")
 
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-file(GLOB_RECURSE HEADERS "include/*.hpp")
-
-add_executable(program ${SOURCES} ${HEADERS})
-target_include_directories(program PRIVATE "${CMAKE_SOURCE_DIR}/include")
-
-target_link_libraries(program PRIVATE ${DYNAMIC_LINK_TARGETS})
+add_subdirectory(src)
