@@ -26,15 +26,15 @@ template <typename T>
 class Property {
 public:
     using ValueType = T;
-    using Iterator = typename std::list<std::unique_ptr<Modifier<ValueType>>>::const_iterator;
+    using Iterator  = typename std::list<std::unique_ptr<Modifier<ValueType>>>::const_iterator;
 
     template <typename... Args>
     Property(Args&&... args);
     
     ValueType getValue() const;
     
-    Iterator addModifier(std::unique_ptr<Modifier<ValueType>> modifier) { return Iterator(); }
-    void removeModifier(Iterator modifierIterator) { return; }
+    Iterator addModifier(std::unique_ptr<Modifier<ValueType>> modifier);
+    void removeModifier(Iterator modifierIterator);
     
 private:
     const ValueType mBaseValue;
