@@ -4,8 +4,7 @@
 #include <list>
 #include <utility>
 
-namespace yugioh
-{
+namespace yugioh {
 
 template <typename T>
 class Modifier {
@@ -41,7 +40,12 @@ private:
     std::list<std::unique_ptr<Modifier<ValueType>>> mModifierPipeline;
 };
 
-void test_property();
+namespace test {
+
+void testProperty();
+
+} // namespace test
+
 
 } // namespace yugioh
 

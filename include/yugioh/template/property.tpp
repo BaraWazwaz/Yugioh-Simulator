@@ -1,7 +1,6 @@
 #include <yugioh/property.hpp>
 
-namespace yugioh
-{
+namespace yugioh {
 
 template <typename T>
 template <typename... Args>

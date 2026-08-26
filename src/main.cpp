@@ -3,6 +3,6 @@
 
 int main() {
     fmt::println("Hello, World!");
-    yugioh::test_property();
+    yugioh::test::testProperty();
     return 0;
 }
