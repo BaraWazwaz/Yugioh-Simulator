@@ -25,8 +25,10 @@ nitron::Spec testModifier() {
         }
     };
 
-    return Spec("Modifier")
-    .addTest(Test::returnsValue<std::string>(
+    Spec result ("Modifier");
+
+    result
+    .add(TestReturnedValue(
         []() -> std::string {
             std::unique_ptr<StringModifier> mod = std::make_unique<Quote>();
             return mod->pass("hello");
@@ -34,7 +36,7 @@ nitron::Spec testModifier() {
         [](std::string value) { return value == "\"hello\""; },
         "Modifier::pass should apply the function to value"
     ))
-    .addTest(Test::returnsValue<std::string>(
+    .add(TestReturnedValue(
         []() -> std::string {
             std::unique_ptr<StringModifier> mod = std::make_unique<Repeat>(3);
             return mod->pass("hello");
@@ -44,6 +46,7 @@ nitron::Spec testModifier() {
         },
         "Modifier::pass can take a constructor parameter"
     ));
+    return result;
 }
 
 nitron::Spec testPipeline() {
@@ -57,8 +60,9 @@ nitron::Spec testPipeline() {
         ValueType pass(ValueType previous) const override { return previous * 2; }
     };
 
-    return Spec("Pipeline")
-    .addTest(Test::returnsValue<int>(
+    Spec result ("Pipeline");
+    result
+    .add(TestReturnedValue(
         []() -> int {
             Pipeline<int> temp(100);
             return temp.getValue();
@@ -66,7 +70,7 @@ nitron::Spec testPipeline() {
         [](int x) { return x == 100; },
         "Baseline: Empty pipeline returns initial value"
     ))
-    .addTest(Test::returnsValue<int>(
+    .add(TestReturnedValue(
         []() -> int {
             Pipeline<int> temp(5);
             temp.addModifier(std::make_unique<Add10>());
@@ -76,7 +80,7 @@ nitron::Spec testPipeline() {
         [](int x) { return x == 30; },
         "Pipeline Execution: Modifiers calculate sequentially"
     ))
-    .addTest(Test::returnsValue<int>(
+    .add(TestReturnedValue(
         []() -> int {
             Pipeline<int> temp(10);
             auto it = temp.addModifier(std::make_unique<Add10>());  
@@ -87,6 +91,7 @@ nitron::Spec testPipeline() {
         [](int x) { return x == 20; },
         "Lifecycle: Removing a modifier correctly updates the pipeline output"
     ));
+    return result;
 }
 
 nitron::Spec testProperty() {
@@ -112,8 +117,9 @@ nitron::Spec testProperty() {
         }
     };
 
-    return Spec("Property")
-    .addTest(Test::returnsValue<IntStat>(
+    Spec result ("Property");
+    result
+    .add(TestReturnedValue(
         []() -> IntStat {
             IntProp property (1500);
             property.addModifier(std::make_unique<Decrease>(300));
@@ -122,7 +128,7 @@ nitron::Spec testProperty() {
         [](IntStat stat) { return stat == IntStat(1500, 1500, 1200); },
         "Property carries out operations on value category"
     ))
-    .addTest(Test::returnsValue<IntStat>(
+    .add(TestReturnedValue(
         []() -> IntStat {
             IntProp property (3000);
             property.addModifier(std::make_unique<HalfOrigin>());
@@ -132,7 +138,7 @@ nitron::Spec testProperty() {
         [](IntStat stat) { return stat == IntStat(3000, 1500, 1200); },
         "Property operations on origin work"
     ))
-    .addTest(Test::returnsValue<int>(
+    .add(TestReturnedValue(
         []() -> int {
             IntProp property (3000);
             property.addModifier(std::make_unique<Decrease>(500));
@@ -142,6 +148,7 @@ nitron::Spec testProperty() {
         [](int value) { return value == 1000; },
         "Property current value can be accessed easily"
     ));
+    return result;
 }
 
 } // namespace yugioh::test
